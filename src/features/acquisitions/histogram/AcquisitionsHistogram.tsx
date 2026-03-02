@@ -101,6 +101,7 @@ const AcquisitionsHistogram: React.FC<AcquisitionsHistogramProps> = ({
             name="Acquisitions"
             fill={CHART_COLORS.bar}
             radius={[4, 4, 0, 0]}
+            cursor="pointer"
           />
         </BarChart>
       </ResponsiveContainer>

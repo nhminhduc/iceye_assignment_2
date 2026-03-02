@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { devtools, persist } from "zustand/middleware";
 
 interface AuthState {
   token: string | null;
@@ -9,16 +9,21 @@ interface AuthState {
 }
 
 export const useAuthStore = create<AuthState>()(
-  persist(
-    (set) => ({
-      token: null,
-      userId: null,
-      login: (token, userId) => set({ token, userId }),
-      logout: () => set({ token: null, userId: null }),
-    }),
-    {
-      name: "larvis-auth",
-      partialize: (state) => ({ token: state.token, userId: state.userId }),
-    },
+  devtools(
+    persist(
+      (set) => ({
+        token: null,
+        userId: null,
+        login: (token, userId) => set({ token, userId }),
+        logout: () => set({ token: null, userId: null }),
+      }),
+      {
+        name: "larvis-auth",
+        partialize: (state) => ({
+          token: state.token,
+          userId: state.userId,
+        }),
+      },
+    ),
   ),
 );

@@ -77,8 +77,15 @@ export function DashboardPage() {
       : 0;
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold tracking-tight">Acquisitions</h1>
+    <div className="space-y-8">
+      <div>
+        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
+          Acquisitions
+        </h1>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Satellite acquisition analytics and data exploration
+        </p>
+      </div>
 
       <AcquisitionFilters />
 
@@ -88,7 +95,8 @@ export function DashboardPage() {
         role="region"
         aria-label="Summary statistics"
       >
-        <div className="rounded-lg border bg-card p-5 text-center shadow-sm transition-shadow hover:shadow-md">
+        <div className="relative overflow-hidden rounded-lg border bg-card p-5 text-center shadow-sm transition-shadow hover:shadow-md">
+          <div className="absolute inset-y-0 left-0 w-1 rounded-l-lg bg-primary" />
           <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
             Days with data
           </p>
@@ -96,7 +104,8 @@ export function DashboardPage() {
             {filteredDaily.length.toLocaleString()}
           </p>
         </div>
-        <div className="rounded-lg border bg-card p-5 text-center shadow-sm transition-shadow hover:shadow-md">
+        <div className="relative overflow-hidden rounded-lg border bg-card p-5 text-center shadow-sm transition-shadow hover:shadow-md">
+          <div className="absolute inset-y-0 left-0 w-1 rounded-l-lg bg-chart-2" />
           <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
             Avg detected sites
           </p>
@@ -104,7 +113,8 @@ export function DashboardPage() {
             {avgSites.toLocaleString()}
           </p>
         </div>
-        <div className="rounded-lg border bg-card p-5 text-center shadow-sm transition-shadow hover:shadow-md">
+        <div className="relative overflow-hidden rounded-lg border bg-card p-5 text-center shadow-sm transition-shadow hover:shadow-md">
+          <div className="absolute inset-y-0 left-0 w-1 rounded-l-lg bg-chart-3" />
           <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
             Peak detected sites
           </p>
@@ -116,13 +126,13 @@ export function DashboardPage() {
 
       {/* Timeline chart */}
       <section
-        className="rounded-lg border bg-card p-5 shadow-sm"
+        className="rounded-lg border bg-card p-6 shadow-sm"
         aria-label="Timeline chart"
       >
         <h2 className="text-sm font-semibold uppercase tracking-wide text-foreground">
           Detected Sites Over Time
         </h2>
-        <p className="mb-3 text-xs text-muted-foreground">
+        <p className="mb-4 text-xs text-muted-foreground">
           Each point shows the total ore sites detected on that date. Click and
           drag directly on the chart to zoom into a date range.
         </p>
@@ -134,13 +144,13 @@ export function DashboardPage() {
 
       {/* Histogram */}
       <section
-        className="rounded-lg border bg-card p-5 shadow-sm"
+        className="rounded-lg border bg-card p-6 shadow-sm"
         aria-label="Distribution histogram"
       >
         <h2 className="text-sm font-semibold uppercase tracking-wide text-foreground">
           Sites Distribution
         </h2>
-        <p className="mb-3 text-xs text-muted-foreground">
+        <p className="mb-4 text-xs text-muted-foreground">
           How often each range of detected-site counts occurs across all
           acquisitions.
         </p>
@@ -149,13 +159,13 @@ export function DashboardPage() {
 
       {/* Data table */}
       <section
-        className="rounded-lg border bg-card p-5 shadow-sm"
+        className="rounded-lg border bg-card p-6 shadow-sm"
         aria-label="Acquisitions data table"
       >
         <h2 className="text-sm font-semibold uppercase tracking-wide text-foreground">
           All Acquisitions
         </h2>
-        <p className="mb-3 text-xs text-muted-foreground">
+        <p className="mb-4 text-xs text-muted-foreground">
           Every individual acquisition record. The list is virtualised — scroll
           to explore.
         </p>

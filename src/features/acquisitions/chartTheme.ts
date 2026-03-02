@@ -10,8 +10,11 @@ import type { CSSProperties } from "react";
 export const TOOLTIP_STYLE: CSSProperties = {
   backgroundColor: "var(--popover)",
   border: "1px solid var(--border)",
-  borderRadius: "6px",
+  borderRadius: "8px",
   color: "var(--popover-foreground)",
+  padding: "8px 12px",
+  fontSize: "13px",
+  boxShadow: "0 4px 12px rgba(0,0,0,.08)",
 };
 
 /**

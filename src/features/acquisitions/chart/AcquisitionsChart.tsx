@@ -110,7 +110,7 @@ const AcquisitionsChart: React.FC<AcquisitionsChartProps> = ({
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
             data={daily}
-            margin={{ top: 5, right: 20, left: 0, bottom: 5 }}
+            margin={{ top: 5, right: 20, left: 0, bottom: 10 }}
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}

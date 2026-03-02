@@ -60,7 +60,7 @@ export function AcquisitionsTable({ data }: AcquisitionsTableProps) {
         {/* Sticky header */}
         <div
           role="row"
-          className="grid grid-cols-[1fr_auto] bg-muted/60 border-b text-xs font-semibold text-muted-foreground uppercase tracking-wide"
+          className="grid grid-cols-[1fr_auto] bg-muted/60 border-b text-xs font-semibold text-muted-foreground uppercase tracking-wider select-none"
         >
           <div role="columnheader" className="px-4 py-3">
             Date &amp; Time
@@ -101,7 +101,7 @@ export function AcquisitionsTable({ data }: AcquisitionsTableProps) {
                     height: `${virtualRow.size}px`,
                     transform: `translateY(${virtualRow.start}px)`,
                   }}
-                  className="grid grid-cols-[1fr_auto] items-center border-b last:border-b-0 hover:bg-muted/50 transition-colors"
+                  className="grid grid-cols-[1fr_auto] items-center border-b last:border-b-0 even:bg-muted/30 hover:bg-muted/60 transition-colors cursor-default"
                 >
                   <div role="cell" className="px-4 font-mono text-sm truncate">
                     {row.datetime}

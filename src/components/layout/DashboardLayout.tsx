@@ -15,7 +15,7 @@ export function DashboardLayout() {
       <AppSidebar />
       <SidebarInset>
         <AppHeader />
-        <main className="flex-1 p-4 sm:p-6">
+        <main className="flex-1 px-4 py-6 sm:px-8 sm:py-8">
           <Outlet />
         </main>
         <AppFooter />

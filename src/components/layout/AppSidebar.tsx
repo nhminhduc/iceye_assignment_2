@@ -1,4 +1,4 @@
-import { LayoutDashboard, Satellite, User } from "lucide-react";
+import { LayoutDashboard, Satellite, User } from "@/components/icons";
 import { Link, useLocation } from "react-router";
 
 import {
@@ -14,7 +14,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { useAuthStore } from "@/features/auth/authStore";
+import { useCurrentUser } from "@/features/auth/useCurrentUser";
 
 const navItems = [
   { title: "Dashboard", to: "/", icon: LayoutDashboard },
@@ -23,7 +23,7 @@ const navItems = [
 
 export function AppSidebar() {
   const location = useLocation();
-  const userId = useAuthStore((s) => s.userId);
+  const { displayName } = useCurrentUser();
 
   return (
     <Sidebar collapsible="icon" aria-label="Main navigation">
@@ -32,7 +32,7 @@ export function AppSidebar() {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <Link to="/">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
                   <Satellite className="size-4" />
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
@@ -74,7 +74,7 @@ export function AppSidebar() {
           <SidebarMenuItem>
             <SidebarMenuButton size="sm" className="cursor-default">
               <User className="size-4" />
-              <span className="truncate text-xs">{userId}</span>
+              <span className="truncate text-xs">{displayName}</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

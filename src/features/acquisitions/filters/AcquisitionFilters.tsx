@@ -17,11 +17,13 @@ export function AcquisitionFilters() {
   const hasActive = Object.values(filters).some((v) => v !== "");
 
   return (
-    <fieldset className="border-0 p-0 m-0">
-      <legend className="sr-only">Filter acquisitions</legend>
-      <div className="flex flex-wrap items-end gap-3">
-        <label className="space-y-1 text-sm font-medium">
-          <span>From</span>
+    <fieldset className="rounded-lg border bg-card p-4 shadow-sm sm:p-5">
+      <legend className="px-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        Filters
+      </legend>
+      <div className="flex flex-wrap items-end gap-4">
+        <label className="space-y-1.5 text-sm font-medium">
+          <span className="text-muted-foreground">From</span>
           <Input
             type="date"
             value={filters.startDate}
@@ -30,8 +32,8 @@ export function AcquisitionFilters() {
             className="w-full min-w-35 sm:w-40"
           />
         </label>
-        <label className="space-y-1 text-sm font-medium">
-          <span>To</span>
+        <label className="space-y-1.5 text-sm font-medium">
+          <span className="text-muted-foreground">To</span>
           <Input
             type="date"
             value={filters.endDate}
@@ -40,8 +42,8 @@ export function AcquisitionFilters() {
             className="w-full min-w-35 sm:w-40"
           />
         </label>
-        <label className="space-y-1 text-sm font-medium">
-          <span>Min sites</span>
+        <label className="space-y-1.5 text-sm font-medium">
+          <span className="text-muted-foreground">Min sites</span>
           <Input
             type="number"
             min={0}
@@ -52,8 +54,8 @@ export function AcquisitionFilters() {
             className="w-full min-w-20 sm:w-24"
           />
         </label>
-        <label className="space-y-1 text-sm font-medium">
-          <span>Max sites</span>
+        <label className="space-y-1.5 text-sm font-medium">
+          <span className="text-muted-foreground">Max sites</span>
           <Input
             type="number"
             min={0}
@@ -70,6 +72,7 @@ export function AcquisitionFilters() {
           onClick={clearFilters}
           disabled={!hasActive}
           aria-label="Clear all filters"
+          className="transition-colors"
         >
           Clear
         </Button>
