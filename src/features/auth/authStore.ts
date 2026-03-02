@@ -19,6 +19,6 @@ export const useAuthStore = create<AuthState>()(
     {
       name: "larvis-auth",
       partialize: (state) => ({ token: state.token, userId: state.userId }),
-    }
-  )
+    },
+  ),
 );

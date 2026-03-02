@@ -25,7 +25,12 @@ export function LoginPage() {
             onChange={(e) => setUserId(e.target.value)}
             placeholder="alice, bob, or charlie"
             required
-            style={{ display: "block", width: "100%", padding: 8, marginTop: 4 }}
+            style={{
+              display: "block",
+              width: "100%",
+              padding: 8,
+              marginTop: 4,
+            }}
           />
         </div>
         <div style={{ marginBottom: 12 }}>
@@ -37,7 +42,12 @@ export function LoginPage() {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="1234"
             required
-            style={{ display: "block", width: "100%", padding: 8, marginTop: 4 }}
+            style={{
+              display: "block",
+              width: "100%",
+              padding: 8,
+              marginTop: 4,
+            }}
           />
         </div>
         {isError && (

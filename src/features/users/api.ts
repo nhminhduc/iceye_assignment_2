@@ -15,7 +15,7 @@ export const userApi = {
 
   update: async (
     userId: string,
-    payload: { name?: string; password?: string }
+    payload: { name?: string; password?: string },
   ): Promise<User> => {
     const { data } = await apiClient.post<User>(`/users/${userId}`, payload);
     return data;
