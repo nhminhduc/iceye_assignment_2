@@ -87,7 +87,16 @@ export function DashboardPage() {
         </p>
       </div>
 
-      <AcquisitionFilters />
+      <AcquisitionFilters
+        minDate={data?.records[0]?.date}
+        maxDate={data?.records[data.records.length - 1]?.date}
+        minSitesValue={
+          data ? Math.min(...data.records.map((r) => r.sites)) : undefined
+        }
+        maxSitesValue={
+          data ? Math.max(...data.records.map((r) => r.sites)) : undefined
+        }
+      />
 
       {/* Summary cards */}
       <div
@@ -103,7 +112,9 @@ export function DashboardPage() {
           <p className="mt-2 text-4xl font-extrabold tabular-nums text-primary">
             {filteredDaily.length.toLocaleString()}
           </p>
-          <p className="mt-1 text-[11px] text-muted-foreground/70">total matching days</p>
+          <p className="mt-1 text-[11px] text-muted-foreground/70">
+            total matching days
+          </p>
         </div>
         <div className="card-interactive relative overflow-hidden rounded-xl border bg-card p-6 text-center shadow-sm">
           <div className="absolute inset-x-0 top-0 h-1 bg-chart-2" />
@@ -123,7 +134,9 @@ export function DashboardPage() {
           <p className="mt-2 text-4xl font-extrabold tabular-nums text-primary">
             {maxSites.toLocaleString()}
           </p>
-          <p className="mt-1 text-[11px] text-muted-foreground/70">single day maximum</p>
+          <p className="mt-1 text-[11px] text-muted-foreground/70">
+            single day maximum
+          </p>
         </div>
       </div>
 

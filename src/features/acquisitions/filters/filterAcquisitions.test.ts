@@ -104,4 +104,14 @@ describe("filterAcquisitions", () => {
     const result = filterAcquisitions(data, { ...empty, minSites: "100" });
     expect(result).toHaveLength(0);
   });
+
+  it("handles minSites '0' correctly (returns all — no items below 0)", () => {
+    const result = filterAcquisitions(data, { ...empty, minSites: "0" });
+    expect(result).toHaveLength(4);
+  });
+
+  it("handles maxSites '0' correctly (excludes all positive values)", () => {
+    const result = filterAcquisitions(data, { ...empty, maxSites: "0" });
+    expect(result).toHaveLength(0);
+  });
 });

@@ -71,7 +71,9 @@ describe("LoginPage", () => {
     await user.click(screen.getByRole("button", { name: /login/i }));
 
     await waitFor(() => {
-      expect(screen.getByText(/login failed/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/invalid user id or password/i),
+      ).toBeInTheDocument();
     });
   });
 

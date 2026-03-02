@@ -44,13 +44,18 @@ export function LoginPage() {
             {isError && (
               <Alert variant="destructive">
                 <AlertDescription>
-                  Login failed: {error?.message ?? "Unknown error"}
+                  {error?.message ?? "Unknown error"}
                 </AlertDescription>
               </Alert>
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="userId" className="text-xs font-medium tracking-wide">User ID</Label>
+              <Label
+                htmlFor="userId"
+                className="text-xs font-medium tracking-wide"
+              >
+                User ID
+              </Label>
               <Input
                 id="userId"
                 type="text"
@@ -65,7 +70,12 @@ export function LoginPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-xs font-medium tracking-wide">Password</Label>
+              <Label
+                htmlFor="password"
+                className="text-xs font-medium tracking-wide"
+              >
+                Password
+              </Label>
               <Input
                 id="password"
                 type="password"

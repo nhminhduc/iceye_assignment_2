@@ -17,15 +17,45 @@ A React + TypeScript dashboard for visualizing Martian ore site acquisition data
 - **Axios** — HTTP client with interceptors for auth tokens
 - **date-fns** — date formatting (unix timestamps → human-readable)
 - **Vitest + Testing Library** — 31 unit tests with jsdom
+- **Playwright** — 16 end-to-end tests
 
 ## Getting Started
 
-### Prerequisites
+### Docker Compose (recommended)
+
+The easiest way to run both the frontend and backend together:
+
+```bash
+docker compose up --build
+```
+
+This starts:
+- **Frontend** at [http://localhost:3000](http://localhost:3000) — React SPA served via PM2 + `serve`
+- **Backend** at [http://localhost:8080](http://localhost:8080) — LARVIS Go binary
+
+To stop:
+
+```bash
+docker compose down
+```
+
+### Frontend Only (Docker)
+
+```bash
+docker build -t larvis-frontend .
+docker run -p 3000:3000 larvis-frontend
+```
+
+Requires the backend to already be running at `http://localhost:8080`.
+
+### Local Development
+
+#### Prerequisites
 
 - Node.js ≥ 18
 - A running LARVIS backend at `http://localhost:8080` (or set `VITE_API_URL`)
 
-### Install & Run
+#### Install & Run
 
 ```bash
 npm install
@@ -36,41 +66,59 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ### Available Scripts
 
-| Script               | Description                          |
-| -------------------- | ------------------------------------ |
-| `npm run dev`        | Start Vite dev server with HMR       |
-| `npm run build`      | Type-check with `tsc` then build     |
-| `npm run preview`    | Preview the production build locally |
-| `npm run lint`       | Run ESLint                           |
-| `npm run test`       | Run all tests once (`vitest run`)    |
-| `npm run test:watch` | Run tests in watch mode              |
+| Script               | Description                              |
+| -------------------- | ---------------------------------------- |
+| `npm run dev`        | Start Vite dev server with HMR           |
+| `npm run build`      | Type-check with `tsc` then build         |
+| `npm run preview`    | Preview the production build locally     |
+| `npm run lint`       | Run ESLint                               |
+| `npm run lint:fix`   | Run ESLint with auto-fix                 |
+| `npm run test`       | Run all unit tests once (`vitest run`)   |
+| `npm run test:watch` | Run unit tests in watch mode             |
+| `npm run test:e2e`   | Run Playwright end-to-end tests          |
 
 ## Project Structure
 
 ```
-src/
-├── components/
-│   ├── layout/          # DashboardLayout, AppHeader, AppSidebar, AppFooter
-│   │                    # ThemeProvider (next-themes), ThemeToggle, UserMenu
-│   └── ui/              # shadcn/ui primitives (button, sidebar, skeleton, etc.)
-├── entities/
-│   ├── acquisition/     # Acquisition, AcquisitionDataPoint, DailyAggregation types
-│   └── user/            # User types & API
-├── features/
-│   ├── acquisitions/    # Core feature module (see below)
-│   ├── auth/            # Login page, auth API, Zustand store, useLogin hook
-│   └── profile/         # Profile form & hook
-├── hooks/               # Shared hooks (use-mobile)
-├── lib/                 # api-client (Axios), utils (cn helper)
-├── pages/               # Route-level page components
-│   ├── DashboardPage.tsx      # Orchestrates chart, histogram, table, filters
-│   ├── DashboardSkeleton.tsx  # Skeleton loading state matching dashboard layout
-│   ├── LoginPage.tsx
-│   └── ProfilePage.tsx
-├── test/                # Test setup (vitest + testing-library)
-├── App.tsx              # Root router & auth guard
-├── main.tsx             # Entry point (React Query, Router, ThemeProvider)
-└── index.css            # Tailwind imports, oklch theme variables (light + dark)
+├── backend/               # LARVIS Go backend binary + Dockerfile
+├── docker-compose.yml     # Orchestrates frontend + backend
+├── Dockerfile             # Multi-stage frontend build (Node 22 → PM2 + serve)
+├── ecosystem.config.cjs   # PM2 process config for production serve
+├── e2e/                   # Playwright end-to-end tests
+│   ├── auth.spec.ts       # Login/logout flows (4 tests)
+│   ├── dashboard.spec.ts  # Dashboard rendering & interactions (6 tests)
+│   ├── navigation.spec.ts # Route navigation & guards (3 tests)
+│   ├── profile.spec.ts    # Profile page flows (3 tests)
+│   └── fixtures.ts        # Shared test fixtures
+├── playwright.config.ts   # Playwright config (Chromium, preview server)
+├── docs/
+│   ├── ARCHITECTURE.md    # ADRs, FSD layer diagram, auth flows
+│   ├── BACKEND_IMPROVEMENTS.md
+│   └── ENHANCEMENT_ROADMAP.md
+└── src/
+    ├── components/
+    │   ├── icons.tsx           # Shared icon components
+    │   ├── layout/            # DashboardLayout, AppHeader, AppSidebar, AppFooter
+    │   │                      # ThemeProvider (next-themes), ThemeToggle, UserMenu
+    │   └── ui/                # shadcn/ui primitives (button, sidebar, skeleton, etc.)
+    ├── entities/
+    │   ├── acquisition/       # Acquisition, AcquisitionDataPoint, DailyAggregation types
+    │   └── user/              # User types & API
+    ├── features/
+    │   ├── acquisitions/      # Core feature module (see below)
+    │   ├── auth/              # Login page, auth API, Zustand store, useLogin, useCurrentUser
+    │   └── profile/           # Profile form & hook
+    ├── hooks/                 # Shared hooks (use-mobile)
+    ├── lib/                   # api-client (Axios), utils (cn helper)
+    ├── pages/                 # Route-level page components
+    │   ├── DashboardPage.tsx        # Orchestrates chart, histogram, table, filters
+    │   ├── DashboardSkeleton.tsx    # Skeleton loading state matching dashboard layout
+    │   ├── LoginPage.tsx
+    │   └── ProfilePage.tsx
+    ├── test/                  # Test setup (vitest + testing-library)
+    ├── App.tsx                # Root router & auth guard
+    ├── main.tsx               # Entry point (React Query, Router, ThemeProvider)
+    └── index.css              # Tailwind imports, oklch theme variables (light + dark)
 ```
 
 ### Acquisitions Feature (`src/features/acquisitions/`)
@@ -99,6 +147,21 @@ acquisitions/
     ├── filterAcquisitions.ts       # Pure function — filters by date & sites range
     └── filterAcquisitions.test.ts  # 9 tests
 ```
+
+## Docker Architecture
+
+```
+docker-compose.yml
+├── backend   (./backend/Dockerfile)
+│   └── scratch image with static Go binary → :8080
+└── frontend  (./Dockerfile)
+    ├── Stage 1: node:22-alpine → npm ci → npm run build
+    └── Stage 2: node:22-alpine → pm2 + serve → serves dist/ on :3000
+```
+
+The frontend Dockerfile uses a multi-stage build:
+1. **Build stage**: installs dependencies and runs `tsc -b && vite build`
+2. **Production stage**: installs `pm2` and `serve` globally, copies the built `dist/` folder, and runs `pm2-runtime` with the `ecosystem.config.cjs` config to serve static files on port 3000
 
 ## Architecture Decisions
 
@@ -163,6 +226,8 @@ All views are rendered simultaneously on the `DashboardPage` (no tabs — all vi
 
 ## Testing
 
+### Unit Tests
+
 ```bash
 npm run test
 ```
@@ -179,6 +244,23 @@ npm run test
 | `ProfileForm.test.tsx`           | 7     | Profile form behavior                                             |
 
 Tests use Vitest with jsdom environment and `@testing-library/react`.
+
+### End-to-End Tests
+
+```bash
+npm run test:e2e
+```
+
+16 tests across 4 spec files using Playwright (Chromium):
+
+| Spec File           | Tests | Description                              |
+| ------------------- | ----- | ---------------------------------------- |
+| `auth.spec.ts`      | 4     | Login/logout flows                       |
+| `dashboard.spec.ts` | 6     | Dashboard rendering & chart interactions |
+| `navigation.spec.ts`| 3     | Route navigation & auth guards           |
+| `profile.spec.ts`   | 3     | Profile page flows                       |
+
+E2E tests run against the Vite preview server on port 4173.
 
 ## Environment Variables
 

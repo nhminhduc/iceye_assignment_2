@@ -6,7 +6,19 @@ import {
   useAcquisitionFilters,
 } from "./useAcquisitionFilters";
 
-export function AcquisitionFilters() {
+interface AcquisitionFiltersProps {
+  minDate?: string;
+  maxDate?: string;
+  minSitesValue?: number;
+  maxSitesValue?: number;
+}
+
+export function AcquisitionFilters({
+  minDate,
+  maxDate,
+  minSitesValue,
+  maxSitesValue,
+}: AcquisitionFiltersProps) {
   const { filters, setFilters, clearFilters } = useAcquisitionFilters();
 
   const update =
@@ -21,58 +33,74 @@ export function AcquisitionFilters() {
       <legend className="px-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
         Filters
       </legend>
-      <div className="flex flex-wrap items-end gap-5">
-        <label className="space-y-1.5 space-x-1.5 text-sm font-medium">
-          <span className="text-muted-foreground">From</span>
+      <div className="grid grid-cols-2 gap-4 sm:flex sm:flex-wrap sm:items-end sm:gap-5">
+        <label className="space-y-1.5 text-sm font-medium">
+          <span className="pr-1 text-muted-foreground">From</span>
           <Input
             type="date"
             value={filters.startDate}
             onChange={update("startDate")}
+            min={minDate}
+            max={maxDate}
             aria-label="Start date"
-            className="w-full min-w-35 sm:w-40"
+            className="w-full sm:w-40"
           />
         </label>
-        <label className="space-y-1.5 space-x-1.5 text-sm font-medium">
-          <span className="text-muted-foreground">To</span>
+        <label className="space-y-1.5 text-sm font-medium">
+          <span className="pr-1 text-muted-foreground">To</span>
           <Input
             type="date"
             value={filters.endDate}
             onChange={update("endDate")}
+            min={minDate}
+            max={maxDate}
             aria-label="End date"
-            className="w-full min-w-35 sm:w-40"
+            className="w-full sm:w-40"
           />
         </label>
-        <label className="space-y-1.5 space-x-1.5 text-sm font-medium">
-          <span className="text-muted-foreground">Min sites</span>
+        <label className="space-y-1.5 text-sm font-medium">
+          <span className="pr-1 text-muted-foreground">Min sites</span>
           <Input
             type="number"
-            min={0}
+            min={minSitesValue ?? 0}
+            max={
+              filters.maxSites !== "" ? Number(filters.maxSites) : maxSitesValue
+            }
+            step={1}
             value={filters.minSites}
             onChange={update("minSites")}
-            placeholder="0"
+            placeholder={String(minSitesValue ?? 0)}
             aria-label="Minimum detected sites"
-            className="w-full min-w-20 sm:w-24"
+            className="w-full sm:w-24"
           />
         </label>
-        <label className="space-y-1.5 space-x-1.5 text-sm font-medium">
-          <span className="text-muted-foreground">Max sites</span>
+        <label className="space-y-1.5 text-sm font-medium">
+          <span className="pr-1 text-muted-foreground">Max sites</span>
           <Input
             type="number"
-            min={0}
+            min={
+              filters.minSites !== ""
+                ? Number(filters.minSites)
+                : (minSitesValue ?? 0)
+            }
+            max={maxSitesValue}
+            step={1}
             value={filters.maxSites}
             onChange={update("maxSites")}
-            placeholder="∞"
+            placeholder={
+              maxSitesValue !== undefined ? String(maxSitesValue) : "∞"
+            }
             aria-label="Maximum detected sites"
-            className="w-full min-w-20 sm:w-24"
+            className="w-full sm:w-24"
           />
         </label>
         <Button
           variant="outline"
           size="sm"
+          className="col-span-2 transition-colors hover:bg-destructive/10 hover:text-destructive sm:col-span-1"
           onClick={clearFilters}
           disabled={!hasActive}
           aria-label="Clear all filters"
-          className="transition-colors hover:bg-destructive/10 hover:text-destructive"
         >
           Clear
         </Button>
