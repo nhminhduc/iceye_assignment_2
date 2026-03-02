@@ -9,12 +9,15 @@ import { AppSidebar } from "./AppSidebar";
 export function DashboardLayout() {
   return (
     <SidebarProvider>
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
       <AppSidebar />
       <SidebarInset>
         <AppHeader />
-        <div className="flex-1 p-6">
+        <main className="flex-1 p-4 sm:p-6">
           <Outlet />
-        </div>
+        </main>
         <AppFooter />
       </SidebarInset>
     </SidebarProvider>

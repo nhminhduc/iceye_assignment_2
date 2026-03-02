@@ -5,10 +5,30 @@ import type { AcquisitionDataPoint } from "@/entities/acquisition";
 import { filterAcquisitions } from "./filterAcquisitions";
 
 const data: AcquisitionDataPoint[] = [
-  { date: "2025-01-10", sites: 10, timestamp: 1736467200 },
-  { date: "2025-01-15", sites: 30, timestamp: 1736899200 },
-  { date: "2025-01-20", sites: 50, timestamp: 1737331200 },
-  { date: "2025-01-25", sites: 70, timestamp: 1737763200 },
+  {
+    date: "2025-01-10",
+    datetime: "2025-01-10 06:00:00",
+    sites: 10,
+    timestamp: 1736467200,
+  },
+  {
+    date: "2025-01-15",
+    datetime: "2025-01-15 12:00:00",
+    sites: 30,
+    timestamp: 1736899200,
+  },
+  {
+    date: "2025-01-20",
+    datetime: "2025-01-20 18:30:00",
+    sites: 50,
+    timestamp: 1737331200,
+  },
+  {
+    date: "2025-01-25",
+    datetime: "2025-01-25 23:45:00",
+    sites: 70,
+    timestamp: 1737763200,
+  },
 ];
 
 const empty = { startDate: "", endDate: "", minSites: "", maxSites: "" };
@@ -19,13 +39,19 @@ describe("filterAcquisitions", () => {
   });
 
   it("filters by startDate", () => {
-    const result = filterAcquisitions(data, { ...empty, startDate: "2025-01-15" });
+    const result = filterAcquisitions(data, {
+      ...empty,
+      startDate: "2025-01-15",
+    });
     expect(result).toHaveLength(3);
     expect(result[0].date).toBe("2025-01-15");
   });
 
   it("filters by endDate", () => {
-    const result = filterAcquisitions(data, { ...empty, endDate: "2025-01-15" });
+    const result = filterAcquisitions(data, {
+      ...empty,
+      endDate: "2025-01-15",
+    });
     expect(result).toHaveLength(2);
     expect(result[1].date).toBe("2025-01-15");
   });
@@ -52,7 +78,11 @@ describe("filterAcquisitions", () => {
   });
 
   it("filters by sites range", () => {
-    const result = filterAcquisitions(data, { ...empty, minSites: "20", maxSites: "60" });
+    const result = filterAcquisitions(data, {
+      ...empty,
+      minSites: "20",
+      maxSites: "60",
+    });
     expect(result).toHaveLength(2);
     expect(result[0].sites).toBe(30);
     expect(result[1].sites).toBe(50);

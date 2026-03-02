@@ -1,0 +1,1 @@
+export { AcquisitionsTable } from "./AcquisitionsTable";
