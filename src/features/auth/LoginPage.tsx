@@ -26,13 +26,13 @@ export function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <Card className="w-full max-w-sm shadow-lg">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-background brand-gradient px-4">
+      <Card className="w-full max-w-sm rounded-2xl shadow-xl">
         <CardHeader className="space-y-1 text-center">
-          <div className="mx-auto mb-2 flex size-12 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-            <Satellite className="size-6" />
+          <div className="mx-auto mb-2 flex size-14 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-md">
+            <Satellite className="size-7" />
           </div>
-          <CardTitle className="text-2xl font-bold tracking-tight">
+          <CardTitle className="text-2xl font-extrabold tracking-tight">
             LARVIS
           </CardTitle>
           <CardDescription>
@@ -40,7 +40,7 @@ export function LoginPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-5">
             {isError && (
               <Alert variant="destructive">
                 <AlertDescription>
@@ -50,7 +50,7 @@ export function LoginPage() {
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="userId">User ID</Label>
+              <Label htmlFor="userId" className="text-xs font-medium tracking-wide">User ID</Label>
               <Input
                 id="userId"
                 type="text"
@@ -60,11 +60,12 @@ export function LoginPage() {
                 required
                 autoComplete="username"
                 disabled={isPending}
+                className="h-10"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password" className="text-xs font-medium tracking-wide">Password</Label>
               <Input
                 id="password"
                 type="password"
@@ -74,6 +75,7 @@ export function LoginPage() {
                 required
                 autoComplete="current-password"
                 disabled={isPending}
+                className="h-10"
               />
             </div>
 
@@ -83,6 +85,9 @@ export function LoginPage() {
           </form>
         </CardContent>
       </Card>
+      <p className="mt-6 text-[11px] text-muted-foreground/60 tracking-wide">
+        LARVIS Satellite Intelligence Platform
+      </p>
     </div>
   );
 }

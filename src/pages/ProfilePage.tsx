@@ -19,9 +19,9 @@ export function ProfilePage() {
         </p>
       </div>
 
-      <Card className="max-w-lg shadow-sm">
+      <Card className="max-w-lg rounded-xl shadow-sm">
         <CardHeader>
-          <CardTitle className="text-sm font-semibold uppercase tracking-wide">
+          <CardTitle className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
             Your Information
           </CardTitle>
           <CardDescription>

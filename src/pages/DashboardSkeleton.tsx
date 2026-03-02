@@ -16,34 +16,35 @@ export function DashboardSkeleton() {
       </div>
 
       {/* Summary cards */}
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-5 sm:grid-cols-3">
         {Array.from({ length: 3 }, (_, i) => (
           <div
             key={i}
-            className="rounded-lg border bg-card p-4 flex flex-col items-center gap-2"
+            className="rounded-xl border bg-card p-6 flex flex-col items-center gap-2"
           >
             <Skeleton className="h-3 w-24" />
-            <Skeleton className="h-7 w-16" />
+            <Skeleton className="h-9 w-20" />
+            <Skeleton className="h-2.5 w-16" />
           </div>
         ))}
       </div>
 
       {/* Chart */}
-      <div className="rounded-lg border bg-card p-4 space-y-3">
+      <div className="rounded-xl border bg-card p-6 space-y-3">
         <Skeleton className="h-5 w-52" />
         <Skeleton className="h-3 w-80" />
         <Skeleton className="h-80 w-full" />
       </div>
 
       {/* Histogram */}
-      <div className="rounded-lg border bg-card p-4 space-y-3">
+      <div className="rounded-xl border bg-card p-6 space-y-3">
         <Skeleton className="h-5 w-40" />
         <Skeleton className="h-3 w-72" />
         <Skeleton className="h-64 w-full" />
       </div>
 
       {/* Table */}
-      <div className="rounded-lg border bg-card p-4 space-y-3">
+      <div className="rounded-xl border bg-card p-6 space-y-3">
         <Skeleton className="h-5 w-36" />
         <Skeleton className="h-3 w-64" />
         <Skeleton className="h-10 w-full" />

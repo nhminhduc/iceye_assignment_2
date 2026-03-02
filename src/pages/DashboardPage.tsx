@@ -91,48 +91,51 @@ export function DashboardPage() {
 
       {/* Summary cards */}
       <div
-        className="grid gap-4 grid-cols-1 sm:grid-cols-3"
+        className="grid gap-5 grid-cols-1 sm:grid-cols-3"
         role="region"
         aria-label="Summary statistics"
       >
-        <div className="relative overflow-hidden rounded-lg border bg-card p-5 text-center shadow-sm transition-shadow hover:shadow-md">
-          <div className="absolute inset-y-0 left-0 w-1 rounded-l-lg bg-primary" />
-          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+        <div className="card-interactive relative overflow-hidden rounded-xl border bg-card p-6 text-center shadow-sm">
+          <div className="absolute inset-x-0 top-0 h-1 bg-primary" />
+          <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
             Days with data
           </p>
-          <p className="mt-2 text-3xl font-bold tabular-nums text-primary">
+          <p className="mt-2 text-4xl font-extrabold tabular-nums text-primary">
             {filteredDaily.length.toLocaleString()}
           </p>
+          <p className="mt-1 text-[11px] text-muted-foreground/70">total matching days</p>
         </div>
-        <div className="relative overflow-hidden rounded-lg border bg-card p-5 text-center shadow-sm transition-shadow hover:shadow-md">
-          <div className="absolute inset-y-0 left-0 w-1 rounded-l-lg bg-chart-2" />
-          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+        <div className="card-interactive relative overflow-hidden rounded-xl border bg-card p-6 text-center shadow-sm">
+          <div className="absolute inset-x-0 top-0 h-1 bg-chart-2" />
+          <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
             Avg detected sites
           </p>
-          <p className="mt-2 text-3xl font-bold tabular-nums text-primary">
+          <p className="mt-2 text-4xl font-extrabold tabular-nums text-primary">
             {avgSites.toLocaleString()}
           </p>
+          <p className="mt-1 text-[11px] text-muted-foreground/70">per day</p>
         </div>
-        <div className="relative overflow-hidden rounded-lg border bg-card p-5 text-center shadow-sm transition-shadow hover:shadow-md">
-          <div className="absolute inset-y-0 left-0 w-1 rounded-l-lg bg-chart-3" />
-          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+        <div className="card-interactive relative overflow-hidden rounded-xl border bg-card p-6 text-center shadow-sm">
+          <div className="absolute inset-x-0 top-0 h-1 bg-chart-3" />
+          <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
             Peak detected sites
           </p>
-          <p className="mt-2 text-3xl font-bold tabular-nums text-primary">
+          <p className="mt-2 text-4xl font-extrabold tabular-nums text-primary">
             {maxSites.toLocaleString()}
           </p>
+          <p className="mt-1 text-[11px] text-muted-foreground/70">single day maximum</p>
         </div>
       </div>
 
       {/* Timeline chart */}
       <section
-        className="rounded-lg border bg-card p-6 shadow-sm"
+        className="rounded-xl border bg-card p-6 shadow-sm"
         aria-label="Timeline chart"
       >
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-foreground">
+        <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
           Detected Sites Over Time
         </h2>
-        <p className="mb-4 text-xs text-muted-foreground">
+        <p className="mb-5 text-xs text-muted-foreground/70">
           Each point shows the total ore sites detected on that date. Click and
           drag directly on the chart to zoom into a date range.
         </p>
@@ -144,13 +147,13 @@ export function DashboardPage() {
 
       {/* Histogram */}
       <section
-        className="rounded-lg border bg-card p-6 shadow-sm"
+        className="rounded-xl border bg-card p-6 shadow-sm"
         aria-label="Distribution histogram"
       >
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-foreground">
+        <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
           Sites Distribution
         </h2>
-        <p className="mb-4 text-xs text-muted-foreground">
+        <p className="mb-5 text-xs text-muted-foreground/70">
           How often each range of detected-site counts occurs across all
           acquisitions.
         </p>
@@ -159,13 +162,13 @@ export function DashboardPage() {
 
       {/* Data table */}
       <section
-        className="rounded-lg border bg-card p-6 shadow-sm"
+        className="rounded-xl border bg-card p-6 shadow-sm"
         aria-label="Acquisitions data table"
       >
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-foreground">
+        <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
           All Acquisitions
         </h2>
-        <p className="mb-4 text-xs text-muted-foreground">
+        <p className="mb-5 text-xs text-muted-foreground/70">
           Every individual acquisition record. The list is virtualised — scroll
           to explore.
         </p>

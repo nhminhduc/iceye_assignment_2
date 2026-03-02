@@ -130,7 +130,7 @@ export function ProfileForm() {
 
       {/* ── Account info ────────────────────────────────── */}
       <fieldset className="space-y-4">
-        <legend className="text-sm font-semibold uppercase tracking-wide text-foreground">
+        <legend className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
           Account
         </legend>
 
@@ -164,7 +164,7 @@ export function ProfileForm() {
 
       {/* ── Change password ─────────────────────────────── */}
       <fieldset className="space-y-4">
-        <legend className="text-sm font-semibold uppercase tracking-wide text-foreground">
+        <legend className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
           Change Password
         </legend>
         <p className="text-xs text-muted-foreground">

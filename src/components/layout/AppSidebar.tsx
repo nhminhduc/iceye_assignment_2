@@ -32,12 +32,12 @@ export function AppSidebar() {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <Link to="/">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
+                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm transition-transform group-hover:scale-105">
                   <Satellite className="size-4" />
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-semibold">LARVIS</span>
-                  <span className="text-xs text-muted-foreground">
+                  <span className="font-bold tracking-tight">LARVIS</span>
+                  <span className="text-[11px] text-muted-foreground">
                     Dashboard
                   </span>
                 </div>
