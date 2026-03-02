@@ -1,4 +1,4 @@
-import { apiClient } from "@/shared/api/client";
+import { apiClient } from "@/lib/api-client";
 
 import type { User, UserListItem } from "./types";
 

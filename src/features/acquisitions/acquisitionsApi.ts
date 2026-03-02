@@ -1,5 +1,5 @@
 import type { Acquisition } from "@/entities/acquisition";
-import { apiClient } from "@/shared/api/client";
+import { apiClient } from "@/lib/api-client";
 
 export const acquisitionsApi = {
   getAll: async (): Promise<Acquisition[]> => {

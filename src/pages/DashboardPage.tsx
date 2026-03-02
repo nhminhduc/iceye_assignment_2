@@ -20,7 +20,7 @@ export function DashboardPage() {
 
   return (
     <>
-      <h1>Acquisitions</h1>
+      <h1 className="text-2xl font-bold tracking-tight">Acquisitions</h1>
       <AcquisitionFilters />
       <AcquisitionsTable data={filtered} />
     </>
