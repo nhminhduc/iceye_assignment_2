@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { Link, Route, Routes } from "react-router";
 
 import { AcquisitionFilters } from "@/features/acquisitions/AcquisitionFilters";
 import { AcquisitionsTable } from "@/features/acquisitions/AcquisitionsTable";
@@ -7,11 +8,10 @@ import { useAcquisitionFilters } from "@/features/acquisitions/useAcquisitionFil
 import { useAcquisitions } from "@/features/acquisitions/useAcquisitions";
 import { useAuthStore } from "@/features/auth/authStore";
 import { LoginPage } from "@/features/auth/LoginPage";
+import { ProfileForm } from "@/features/profile/ProfileForm";
 
 function App() {
   const token = useAuthStore((s) => s.token);
-  const userId = useAuthStore((s) => s.userId);
-  const logout = useAuthStore((s) => s.logout);
 
   if (!token) {
     return <LoginPage />;
@@ -19,19 +19,39 @@ function App() {
 
   return (
     <div style={{ padding: 24 }}>
-      <h1>LARVIS Dashboard</h1>
-      <p>
-        Logged in as: <strong>{userId}</strong>
-      </p>
-      <button onClick={logout}>Logout</button>
-      <hr style={{ margin: "16px 0" }} />
-      <h2>Acquisitions</h2>
-      <AcquisitionsData />
+      <Nav />
+      <Routes>
+        <Route path="/" element={<DashboardPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+      </Routes>
     </div>
   );
 }
 
-function AcquisitionsData() {
+function Nav() {
+  const userId = useAuthStore((s) => s.userId);
+  const logout = useAuthStore((s) => s.logout);
+
+  return (
+    <nav
+      style={{
+        display: "flex",
+        gap: 16,
+        alignItems: "center",
+        marginBottom: 24,
+      }}
+    >
+      <Link to="/">Dashboard</Link>
+      <Link to="/profile">Profile</Link>
+      <span style={{ marginLeft: "auto" }}>
+        Logged in as: <strong>{userId}</strong>
+      </span>
+      <button onClick={logout}>Logout</button>
+    </nav>
+  );
+}
+
+function DashboardPage() {
   const { data, isLoading, isError, error } = useAcquisitions();
   const { filters } = useAcquisitionFilters();
 
@@ -45,8 +65,20 @@ function AcquisitionsData() {
 
   return (
     <>
+      <h1>Acquisitions</h1>
       <AcquisitionFilters />
       <AcquisitionsTable data={filtered} />
+    </>
+  );
+}
+
+function ProfilePage() {
+  return (
+    <>
+      <h1>Profile</h1>
+      <div style={{ maxWidth: 400 }}>
+        <ProfileForm />
+      </div>
     </>
   );
 }
