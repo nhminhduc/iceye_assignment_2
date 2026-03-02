@@ -85,8 +85,8 @@ describe("ProfileForm", () => {
       expect(screen.getByLabelText(/display name/i)).toHaveValue("Alice");
     });
 
-    await user.type(screen.getByLabelText(/new password/i), "newpass");
-    await user.type(screen.getByLabelText(/confirm password/i), "newpass");
+    await user.type(screen.getByLabelText(/^new password$/i), "newpass");
+    await user.type(screen.getByLabelText(/confirm new password/i), "newpass");
     await user.click(screen.getByRole("button", { name: /save/i }));
 
     expect(
@@ -103,8 +103,8 @@ describe("ProfileForm", () => {
     });
 
     await user.type(screen.getByLabelText(/current password/i), "wrong");
-    await user.type(screen.getByLabelText(/new password/i), "newpass");
-    await user.type(screen.getByLabelText(/confirm password/i), "newpass");
+    await user.type(screen.getByLabelText(/^new password$/i), "newpass");
+    await user.type(screen.getByLabelText(/confirm new password/i), "newpass");
     await user.click(screen.getByRole("button", { name: /save/i }));
 
     await waitFor(() => {
@@ -123,8 +123,11 @@ describe("ProfileForm", () => {
     });
 
     await user.type(screen.getByLabelText(/current password/i), "1234");
-    await user.type(screen.getByLabelText(/new password/i), "newpass");
-    await user.type(screen.getByLabelText(/confirm password/i), "different");
+    await user.type(screen.getByLabelText(/^new password$/i), "newpass");
+    await user.type(
+      screen.getByLabelText(/confirm new password/i),
+      "different",
+    );
     await user.click(screen.getByRole("button", { name: /save/i }));
 
     expect(screen.getByText(/passwords do not match/i)).toBeInTheDocument();
@@ -156,8 +159,8 @@ describe("ProfileForm", () => {
     });
 
     await user.type(screen.getByLabelText(/current password/i), "1234");
-    await user.type(screen.getByLabelText(/new password/i), "newpass");
-    await user.type(screen.getByLabelText(/confirm password/i), "newpass");
+    await user.type(screen.getByLabelText(/^new password$/i), "newpass");
+    await user.type(screen.getByLabelText(/confirm new password/i), "newpass");
     await user.click(screen.getByRole("button", { name: /save/i }));
 
     await waitFor(() => {

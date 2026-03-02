@@ -1,5 +1,11 @@
 import { useState } from "react";
 
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 import { authApi } from "@/features/auth/api";
 import { useAuthStore } from "@/features/auth/authStore";
 
@@ -69,94 +75,155 @@ export function ProfileForm() {
     }
   };
 
-  if (isLoading) return <p>Loading profile...</p>;
+  if (isLoading) {
+    return (
+      <div className="space-y-6" aria-busy="true" aria-label="Loading profile">
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-16" />
+          <Skeleton className="h-9 w-full" />
+        </div>
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-24" />
+          <Skeleton className="h-9 w-full" />
+        </div>
+        <Skeleton className="h-px w-full" />
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-28" />
+          <Skeleton className="h-9 w-full" />
+        </div>
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-24" />
+          <Skeleton className="h-9 w-full" />
+        </div>
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-28" />
+          <Skeleton className="h-9 w-full" />
+        </div>
+      </div>
+    );
+  }
+
+  const isBusy = isPending || isVerifying;
+  const buttonLabel = isVerifying
+    ? "Verifying…"
+    : isPending
+      ? "Saving…"
+      : "Save Changes";
 
   return (
-    <form onSubmit={handleSubmit} aria-label="Profile form">
-      <div style={{ marginBottom: 12 }}>
-        <label htmlFor="profile-userid">User ID</label>
-        <input
-          id="profile-userid"
-          value={profile?.user_id ?? ""}
-          disabled
-          style={{
-            display: "block",
-            width: "100%",
-            padding: 8,
-            marginTop: 4,
-            background: "#eee",
-          }}
-        />
-      </div>
-
-      <div style={{ marginBottom: 12 }}>
-        <label htmlFor="profile-name">Display Name</label>
-        <input
-          id="profile-name"
-          value={name}
-          onChange={(e) => setNameEdited(e.target.value)}
-          placeholder="Your name"
-          disabled={isPending}
-          required
-          style={{ display: "block", width: "100%", padding: 8, marginTop: 4 }}
-        />
-      </div>
-
-      <div style={{ marginBottom: 12 }}>
-        <label htmlFor="profile-old-password">Current Password</label>
-        <input
-          id="profile-old-password"
-          type="password"
-          value={oldPassword}
-          onChange={(e) => setOldPassword(e.target.value)}
-          placeholder="Required to change password"
-          disabled={isPending}
-          style={{ display: "block", width: "100%", padding: 8, marginTop: 4 }}
-        />
-      </div>
-
-      <div style={{ marginBottom: 12 }}>
-        <label htmlFor="profile-password">New Password</label>
-        <input
-          id="profile-password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Leave blank to keep current"
-          disabled={isPending}
-          style={{ display: "block", width: "100%", padding: 8, marginTop: 4 }}
-        />
-      </div>
-
-      <div style={{ marginBottom: 12 }}>
-        <label htmlFor="profile-confirm">Confirm Password</label>
-        <input
-          id="profile-confirm"
-          type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          placeholder="Repeat new password"
-          disabled={isPending}
-          style={{ display: "block", width: "100%", padding: 8, marginTop: 4 }}
-        />
-      </div>
-
-      {error && <p style={{ color: "red", marginBottom: 12 }}>{error}</p>}
+    <form
+      onSubmit={handleSubmit}
+      aria-label="Profile form"
+      className="space-y-6"
+    >
+      {/* Feedback alerts */}
+      {error && (
+        <Alert variant="destructive">
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
       {success && (
-        <p style={{ color: "green", marginBottom: 12 }}>Profile updated!</p>
+        <Alert>
+          <AlertDescription>Profile updated!</AlertDescription>
+        </Alert>
       )}
 
-      <button
-        type="submit"
-        disabled={isPending || isVerifying}
-        style={{ padding: "8px 16px" }}
-      >
-        {isVerifying
-          ? "Verifying..."
-          : isPending
-            ? "Saving..."
-            : "Save Changes"}
-      </button>
+      {/* ── Account info ────────────────────────────────── */}
+      <fieldset className="space-y-4">
+        <legend className="text-sm font-semibold uppercase tracking-wide text-foreground">
+          Account
+        </legend>
+
+        <div className="space-y-2">
+          <Label htmlFor="profile-userid">User ID</Label>
+          <Input
+            id="profile-userid"
+            value={profile?.user_id ?? ""}
+            disabled
+            className="bg-muted text-muted-foreground font-mono"
+          />
+          <p className="text-xs text-muted-foreground">
+            Your unique identifier — this cannot be changed.
+          </p>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="profile-name">Display Name</Label>
+          <Input
+            id="profile-name"
+            value={name}
+            onChange={(e) => setNameEdited(e.target.value)}
+            placeholder="Your name"
+            disabled={isBusy}
+            required
+          />
+        </div>
+      </fieldset>
+
+      <Separator />
+
+      {/* ── Change password ─────────────────────────────── */}
+      <fieldset className="space-y-4">
+        <legend className="text-sm font-semibold uppercase tracking-wide text-foreground">
+          Change Password
+        </legend>
+        <p className="text-xs text-muted-foreground">
+          Leave these fields blank to keep your current password.
+        </p>
+
+        <div className="space-y-2">
+          <Label htmlFor="profile-old-password">Current Password</Label>
+          <Input
+            id="profile-old-password"
+            type="password"
+            value={oldPassword}
+            onChange={(e) => setOldPassword(e.target.value)}
+            placeholder="Required to change password"
+            disabled={isBusy}
+            autoComplete="current-password"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="profile-password">New Password</Label>
+          <Input
+            id="profile-password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="New password"
+            disabled={isBusy}
+            autoComplete="new-password"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="profile-confirm">Confirm New Password</Label>
+          <Input
+            id="profile-confirm"
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            placeholder="Repeat new password"
+            disabled={isBusy}
+            autoComplete="new-password"
+          />
+        </div>
+      </fieldset>
+
+      <Separator />
+
+      {/* ── Submit ───────────────────────────────────────── */}
+      <div className="flex items-center gap-3">
+        <Button type="submit" disabled={isBusy}>
+          {buttonLabel}
+        </Button>
+        {success && (
+          <span className="text-sm text-muted-foreground">
+            All changes saved.
+          </span>
+        )}
+      </div>
     </form>
   );
 }
