@@ -6,12 +6,12 @@ import {
   useAcquisitionFilters,
 } from "./useAcquisitionFilters";
 
-interface AcquisitionFiltersProps {
+type AcquisitionFiltersProps = {
   minDate?: string;
   maxDate?: string;
   minSitesValue?: number;
   maxSitesValue?: number;
-}
+};
 
 export function AcquisitionFilters({
   minDate,

@@ -1,11 +1,11 @@
 import type { DailyAggregation } from "@/entities/acquisition";
 
-export interface HistogramBin {
+export type HistogramBin = {
   range: string;
   count: number;
   min: number;
   max: number;
-}
+};
 
 export function buildHistogram(
   data: DailyAggregation[],

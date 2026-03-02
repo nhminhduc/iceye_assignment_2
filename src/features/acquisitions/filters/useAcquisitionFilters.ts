@@ -1,12 +1,12 @@
 import { useCallback, useMemo } from "react";
 import { useSearchParams } from "react-router";
 
-export interface AcquisitionFilters {
+export type AcquisitionFilters = {
   startDate: string; // "YYYY-MM-DD" or ""
   endDate: string;
   minSites: string; // numeric string or ""
   maxSites: string;
-}
+};
 
 const PARAM_KEYS = {
   startDate: "from",

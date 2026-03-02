@@ -1,3 +1,3 @@
-export { default as AcquisitionsHistogram } from "./AcquisitionsHistogram";
+export { AcquisitionsHistogram } from "./AcquisitionsHistogram";
 export type { HistogramBin } from "./buildHistogram";
 export { buildHistogram } from "./buildHistogram";

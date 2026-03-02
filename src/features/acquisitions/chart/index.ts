@@ -1,1 +1,1 @@
-export { default as AcquisitionsChart } from "./AcquisitionsChart";
+export { AcquisitionsChart } from "./AcquisitionsChart";

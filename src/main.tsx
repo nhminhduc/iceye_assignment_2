@@ -8,7 +8,7 @@ import { BrowserRouter } from "react-router";
 
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
 
-import App from "./App.tsx";
+import { App } from "./App.tsx";
 
 const queryClient = new QueryClient({
   defaultOptions: {

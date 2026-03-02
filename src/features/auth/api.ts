@@ -1,8 +1,8 @@
 import { apiClient } from "@/lib/api-client";
 
-interface TokenResponse {
+type TokenResponse = {
   access: string;
-}
+};
 
 export const authApi = {
   login: async (userId: string, password: string): Promise<TokenResponse> => {

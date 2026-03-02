@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import {
   CartesianGrid,
   Legend,
@@ -15,17 +15,17 @@ import type { DailyAggregation } from "@/entities/acquisition";
 
 import { CHART_COLORS, TOOLTIP_STYLE } from "../chartTheme";
 
-interface AcquisitionsChartProps {
+type AcquisitionsChartProps = {
   /** Pre-aggregated daily data (one point per calendar day). */
   data: DailyAggregation[];
   /** Called with the date range when the user drags to zoom */
   onZoom?: (startDate: string, endDate: string) => void;
-}
+};
 
-const AcquisitionsChart: React.FC<AcquisitionsChartProps> = ({
+export function AcquisitionsChart({
   data,
   onZoom,
-}) => {
+}: AcquisitionsChartProps) {
   const daily = data;
 
   // Drag selection state (visual only — zoom applies via onZoom callback)
@@ -180,6 +180,4 @@ const AcquisitionsChart: React.FC<AcquisitionsChartProps> = ({
       )}
     </div>
   );
-};
-
-export default AcquisitionsChart;
+}

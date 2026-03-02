@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import type { DailyAggregation } from "@/entities/acquisition";
 
-import AcquisitionsChart from "./AcquisitionsChart";
+import { AcquisitionsChart } from "./AcquisitionsChart";
 
 const mockData: DailyAggregation[] = [
   { date: "2025-01-15", sites: 42 },

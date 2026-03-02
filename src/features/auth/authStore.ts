@@ -1,12 +1,12 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
-interface AuthState {
+type AuthState = {
   token: string | null;
   userId: string | null;
   login: (token: string, userId: string) => void;
   logout: () => void;
-}
+};
 
 export const useAuthStore = create<AuthState>()(
   devtools(

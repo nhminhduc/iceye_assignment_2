@@ -1,26 +1,28 @@
 import { Route, Routes } from "react-router";
 
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
-import { useAuthStore } from "@/features/auth/authStore";
 import { DashboardPage } from "@/pages/DashboardPage";
 import { LoginPage } from "@/pages/LoginPage";
 import { ProfilePage } from "@/pages/ProfilePage";
+import { NotFoundPage } from "./pages/NotFoundPage";
+import { AuthGuard, GuestGuard } from "./router";
 
-function App() {
-  const token = useAuthStore((s) => s.token);
-
-  if (!token) {
-    return <LoginPage />;
-  }
-
+export function App() {
   return (
     <Routes>
-      <Route element={<DashboardLayout />}>
-        <Route path="/" element={<DashboardPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+      {/* Guest-only: redirect to dashboard if already logged in */}
+      <Route element={<GuestGuard />}>
+        <Route path="/login" element={<LoginPage />} />
+      </Route>
+
+      {/* Authenticated: redirect to login if not logged in */}
+      <Route element={<AuthGuard />}>
+        <Route element={<DashboardLayout />}>
+          <Route path="/" element={<DashboardPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
       </Route>
     </Routes>
   );
 }
-
-export default App;

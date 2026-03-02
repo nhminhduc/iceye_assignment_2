@@ -1,10 +1,10 @@
-export interface User {
+export type User = {
   user_id: string;
   name: string;
   password?: string; // only returned for own profile
-}
+};
 
-export interface UserListItem {
+export type UserListItem = {
   user_id: string;
   name: string;
-}
+};

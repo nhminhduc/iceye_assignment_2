@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import {
   Bar,
   BarChart,
@@ -14,14 +14,14 @@ import type { DailyAggregation } from "@/entities/acquisition";
 import { CHART_COLORS, TOOLTIP_STYLE } from "../chartTheme";
 import { buildHistogram } from "./buildHistogram";
 
-interface AcquisitionsHistogramProps {
+type AcquisitionsHistogramProps = {
   /** Pre-aggregated daily data (one point per calendar day). */
   data: DailyAggregation[];
-}
+};
 
-const AcquisitionsHistogram: React.FC<AcquisitionsHistogramProps> = ({
+export function AcquisitionsHistogram({
   data,
-}) => {
+}: AcquisitionsHistogramProps) {
   const histogram = useMemo(() => buildHistogram(data), [data]);
 
   if (data.length === 0) {
@@ -107,6 +107,4 @@ const AcquisitionsHistogram: React.FC<AcquisitionsHistogramProps> = ({
       </ResponsiveContainer>
     </div>
   );
-};
-
-export default AcquisitionsHistogram;
+}

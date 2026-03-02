@@ -3,9 +3,9 @@ import { useRef } from "react";
 
 import type { AcquisitionDataPoint } from "@/entities/acquisition";
 
-interface AcquisitionsTableProps {
+type AcquisitionsTableProps = {
   data: AcquisitionDataPoint[];
-}
+};
 
 const ROW_HEIGHT = 44;
 const VISIBLE_ROWS = 10;
