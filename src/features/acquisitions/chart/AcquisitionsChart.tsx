@@ -22,10 +22,7 @@ type AcquisitionsChartProps = {
   onZoom?: (startDate: string, endDate: string) => void;
 };
 
-export function AcquisitionsChart({
-  data,
-  onZoom,
-}: AcquisitionsChartProps) {
+export function AcquisitionsChart({ data, onZoom }: AcquisitionsChartProps) {
   const daily = data;
 
   // Drag selection state (visual only — zoom applies via onZoom callback)

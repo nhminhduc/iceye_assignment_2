@@ -1,4 +1,4 @@
-import { test as base, type Page } from "@playwright/test";
+import { type Page, test as base } from "@playwright/test";
 
 // ── Fake API data ────────────────────────────────────────────────
 
@@ -75,9 +75,10 @@ async function loginAs(page: Page, userId: string, password: string) {
 export const test = base.extend<{ mockedPage: Page }>({
   mockedPage: async ({ page }, use) => {
     await mockApi(page);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     await use(page);
   },
 });
 
-export { ACQUISITIONS, FAKE_TOKEN, PROFILE, VALID_USER, loginAs, mockApi };
+export { ACQUISITIONS, FAKE_TOKEN, loginAs, mockApi, PROFILE, VALID_USER };
 export { expect } from "@playwright/test";

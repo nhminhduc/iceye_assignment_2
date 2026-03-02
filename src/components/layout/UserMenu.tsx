@@ -1,6 +1,6 @@
-import { LogOut, User } from "@/components/icons";
 import { Link } from "react-router";
 
+import { LogOut, User } from "@/components/icons";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,

@@ -19,9 +19,7 @@ type AcquisitionsHistogramProps = {
   data: DailyAggregation[];
 };
 
-export function AcquisitionsHistogram({
-  data,
-}: AcquisitionsHistogramProps) {
+export function AcquisitionsHistogram({ data }: AcquisitionsHistogramProps) {
   const histogram = useMemo(() => buildHistogram(data), [data]);
 
   if (data.length === 0) {

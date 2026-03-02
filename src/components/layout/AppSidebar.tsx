@@ -1,6 +1,6 @@
-import { LayoutDashboard, Satellite, User } from "@/components/icons";
 import { Link, useLocation } from "react-router";
 
+import { LayoutDashboard, Satellite, User } from "@/components/icons";
 import {
   Sidebar,
   SidebarContent,

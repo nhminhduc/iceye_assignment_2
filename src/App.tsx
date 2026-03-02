@@ -4,6 +4,7 @@ import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { DashboardPage } from "@/pages/DashboardPage";
 import { LoginPage } from "@/pages/LoginPage";
 import { ProfilePage } from "@/pages/ProfilePage";
+
 import { NotFoundPage } from "./pages/NotFoundPage";
 import { AuthGuard, GuestGuard } from "./router";
 
