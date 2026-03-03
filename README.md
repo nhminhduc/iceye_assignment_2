@@ -16,7 +16,7 @@ A React + TypeScript dashboard for visualizing Martian ore site acquisition data
 - **Zustand** — lightweight auth state (persisted to localStorage)
 - **Axios** — HTTP client with interceptors for auth tokens
 - **date-fns** — date formatting (unix timestamps → human-readable)
-- **Vitest + Testing Library** — 31 unit tests with jsdom
+- **Vitest + Testing Library** — 33 unit tests with jsdom
 - **Playwright** — 16 end-to-end tests
 
 ## Getting Started
@@ -114,9 +114,11 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
     │   ├── DashboardPage.tsx        # Orchestrates chart, histogram, table, filters
     │   ├── DashboardSkeleton.tsx    # Skeleton loading state matching dashboard layout
     │   ├── LoginPage.tsx
+    │   ├── NotFoundPage.tsx         # 404 page (within authenticated area)
     │   └── ProfilePage.tsx
+    ├── router/                # Route guards (AuthGuard, GuestGuard)
     ├── test/                  # Test setup (vitest + testing-library)
-    ├── App.tsx                # Root router & auth guard
+    ├── App.tsx                # Root router & route config
     ├── main.tsx               # Entry point (React Query, Router, ThemeProvider)
     └── index.css              # Tailwind imports, oklch theme variables (light + dark)
 ```
@@ -145,7 +147,7 @@ acquisitions/
     ├── AcquisitionFilters.tsx      # Filter UI (date range + sites range)
     ├── useAcquisitionFilters.ts    # URL search-param based filter state
     ├── filterAcquisitions.ts       # Pure function — filters by date & sites range
-    └── filterAcquisitions.test.ts  # 9 tests
+    └── filterAcquisitions.test.ts  # 11 tests
 ```
 
 ## Docker Architecture
@@ -190,10 +192,12 @@ DashboardPage
 
 The codebase follows a simplified [Feature-Sliced Design](https://feature-sliced.design/) layout:
 
+- **`components/`** — shared layout (Header, Sidebar, ThemeToggle, UserMenu) and shadcn/ui primitives
+- **`lib/`** — cross-cutting utilities (Axios API client, `cn` helper)
 - **`entities/`** — domain types (`Acquisition`, `AcquisitionDataPoint`, `DailyAggregation`)
 - **`features/`** — self-contained feature modules (acquisitions, auth, profile)
 - **`pages/`** — thin route components that compose features
-- **`components/`** — shared layout and UI primitives
+- **`router/`** — route guards (`AuthGuard`, `GuestGuard`)
 
 ### Three Dashboard Views
 
@@ -232,11 +236,11 @@ All views are rendered simultaneously on the `DashboardPage` (no tabs — all vi
 npm run test
 ```
 
-31 tests across 6 files:
+33 tests across 6 files:
 
 | Test File                        | Tests | Description                                                       |
 | -------------------------------- | ----- | ----------------------------------------------------------------- |
-| `filterAcquisitions.test.ts`     | 9     | Date range, site range, combined filters, edge cases              |
+| `filterAcquisitions.test.ts`     | 11    | Date range, site range, combined filters, edge cases              |
 | `AcquisitionsHistogram.test.tsx` | 5     | `buildHistogram` logic + component rendering                      |
 | `AcquisitionsTable.test.tsx`     | 4     | Empty state, headers (Date & Time), record count, scroll viewport |
 | `AcquisitionsChart.test.tsx`     | 2     | Empty state, chart container rendering                            |

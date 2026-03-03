@@ -5,11 +5,10 @@
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  app/          Bootstrap, providers, router guards, CSS     │
+│                (main.tsx, App.tsx, router/, index.css)       │
 ├─────────────────────────────────────────────────────────────┤
 │  pages/        Thin route wrappers — no business logic      │
-├─────────────────────────────────────────────────────────────┤
-│  widgets/      Self-contained UI blocks (Header, Sidebar,   │
-│                AcquisitionsPanel)                           │
+│                (DashboardPage, ProfilePage, NotFoundPage)    │
 ├─────────────────────────────────────────────────────────────┤
 │  features/     User interactions (auth, acquisitions,       │
 │                profile) — each contains API, store, UI      │
@@ -17,12 +16,17 @@
 │  entities/     Pure business types + thin API wrappers      │
 │                (user, acquisition)                          │
 ├─────────────────────────────────────────────────────────────┤
-│  shared/       Cross-cutting utilities: api client,         │
-│                shadcn/ui components, lib/cn utility         │
+│  components/   Layout (Header, Sidebar, DashboardLayout,    │
+│                ThemeToggle, UserMenu) + shadcn/ui primitives │
+├─────────────────────────────────────────────────────────────┤
+│  lib/          Cross-cutting utilities: api client (Axios), │
+│                cn helper, shared hooks                      │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**Dependency rule:** layers may only import from layers below them. `features` can import `entities` and `shared`. `widgets` can import `features`. `pages` can import `widgets`. `app` can import everything.
+**Dependency rule:** layers may only import from layers below them. `features` can import `entities`, `components`, and `lib`. `pages` can import `features` and `components`. `app` can import everything.
+
+> **Note:** This is a simplified FSD implementation. The canonical FSD `widgets/` and `shared/` layers are merged into `components/` (layout + UI primitives) and `lib/` (utilities) respectively. The `router/` module (`AuthGuard`, `GuestGuard`) lives at the app layer.
 
 ---
 
@@ -102,7 +106,7 @@ User          LoginForm          authApi            LARVIS Backend
  │                │  store token     │                    │
  │                │  (Zustand+persist)                   │
  │◀──────────────│                  │                    │
- │  navigate /dashboard             │                    │
+ │  navigate /          │                    │
 ```
 
 ### Authenticated Request Flow
@@ -126,7 +130,7 @@ Component     TanStack Query     apiClient (Axios)     LARVIS Backend
 ### Logout Flow
 
 ```
-User          Header.tsx         authStore          React Router
+User          UserMenu.tsx       authStore          React Router
  │                │                  │                   │
  │  click logout  │                  │                   │
  │──────────────▶│                  │                   │
@@ -163,7 +167,12 @@ The backend enforces that a user may only `POST /users/{id}` for their own `user
 
 ### Route Protection
 
-`<AuthGuard>` reads `token` from Zustand. If falsy, it renders `<Navigate to="/login" replace />`. This is evaluated synchronously from the persisted localStorage snapshot, so there is no flash-of-unauthenticated-content after refresh.
+Two route guards in `src/router/guards.tsx`:
+
+- **`<AuthGuard>`** — reads `token` from Zustand. If falsy, redirects to `/login`. Wraps all authenticated routes (dashboard, profile, 404).
+- **`<GuestGuard>`** — reads `token` from Zustand. If truthy, redirects to `/`. Wraps the login page to prevent authenticated users from seeing the login form.
+
+Both are evaluated synchronously from the persisted localStorage snapshot, so there is no flash-of-unauthenticated-content after refresh.
 
 ---
 
