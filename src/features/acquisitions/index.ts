@@ -13,6 +13,7 @@ export type { AcquisitionFiltersType } from "./filters";
 export {
   AcquisitionFilters,
   filterAcquisitions,
+  filterDaily,
   useAcquisitionFilters,
 } from "./filters";
 

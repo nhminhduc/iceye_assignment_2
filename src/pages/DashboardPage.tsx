@@ -8,6 +8,7 @@ import {
   AcquisitionsTable,
   aggregateByDate,
   filterAcquisitions,
+  filterDaily,
   useAcquisitionFilters,
   useAcquisitions,
 } from "@/features/acquisitions";
@@ -18,16 +19,22 @@ export function DashboardPage() {
   const { data, isLoading, isError, error, refetch } = useAcquisitions();
   const { filters, setFilters } = useAcquisitionFilters();
 
-  // Filter raw records then derive daily aggregation — single source of truth
-  const filteredRecords = useMemo(
+  // Filter records by date, aggregate into daily, then filter daily by sites range
+  const dateFilteredRecords = useMemo(
     () => (data ? filterAcquisitions(data.records, filters) : []),
     [data, filters],
   );
 
   const filteredDaily = useMemo(
-    () => aggregateByDate(filteredRecords),
-    [filteredRecords],
+    () => filterDaily(aggregateByDate(dateFilteredRecords), filters),
+    [dateFilteredRecords, filters],
   );
+
+  // Records matching the final daily filter (for the table)
+  const filteredRecords = useMemo(() => {
+    const dailyDates = new Set(filteredDaily.map((d) => d.date));
+    return dateFilteredRecords.filter((r) => dailyDates.has(r.date));
+  }, [dateFilteredRecords, filteredDaily]);
 
   if (isLoading) return <DashboardSkeleton />;
 
@@ -91,10 +98,14 @@ export function DashboardPage() {
         minDate={data?.records[0]?.date}
         maxDate={data?.records[data.records.length - 1]?.date}
         minSitesValue={
-          data ? Math.min(...data.records.map((r) => r.sites)) : undefined
+          data
+            ? Math.min(...data.daily.map((d) => d.sites))
+            : undefined
         }
         maxSitesValue={
-          data ? Math.max(...data.records.map((r) => r.sites)) : undefined
+          data
+            ? Math.max(...data.daily.map((d) => d.sites))
+            : undefined
         }
       />
 

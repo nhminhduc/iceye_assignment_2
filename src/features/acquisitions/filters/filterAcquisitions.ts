@@ -1,19 +1,33 @@
-import type { AcquisitionDataPoint } from "@/entities/acquisition";
+import type {
+  AcquisitionDataPoint,
+  DailyAggregation,
+} from "@/entities/acquisition";
 
 import type { AcquisitionFilters } from "./useAcquisitionFilters";
 
+/** Filter raw records by date range only. */
 export function filterAcquisitions(
   data: AcquisitionDataPoint[],
   filters: AcquisitionFilters,
 ): AcquisitionDataPoint[] {
+  return data.filter((row) => {
+    if (filters.startDate && row.date < filters.startDate) return false;
+    if (filters.endDate && row.date > filters.endDate) return false;
+    return true;
+  });
+}
+
+/** Filter daily-aggregated data by sites range. */
+export function filterDaily(
+  data: DailyAggregation[],
+  filters: AcquisitionFilters,
+): DailyAggregation[] {
   const minSites =
     filters.minSites !== "" ? Number(filters.minSites) : undefined;
   const maxSites =
     filters.maxSites !== "" ? Number(filters.maxSites) : undefined;
 
   return data.filter((row) => {
-    if (filters.startDate && row.date < filters.startDate) return false;
-    if (filters.endDate && row.date > filters.endDate) return false;
     if (
       minSites !== undefined &&
       !Number.isNaN(minSites) &&

@@ -1,8 +1,9 @@
 import { describe, expect, it } from "vitest";
 
 import type { AcquisitionDataPoint } from "@/entities/acquisition";
+import type { DailyAggregation } from "@/entities/acquisition";
 
-import { filterAcquisitions } from "./filterAcquisitions";
+import { filterAcquisitions, filterDaily } from "./filterAcquisitions";
 
 const data: AcquisitionDataPoint[] = [
   {
@@ -31,9 +32,16 @@ const data: AcquisitionDataPoint[] = [
   },
 ];
 
+const dailyData: DailyAggregation[] = [
+  { date: "2025-01-10", sites: 10 },
+  { date: "2025-01-15", sites: 30 },
+  { date: "2025-01-20", sites: 50 },
+  { date: "2025-01-25", sites: 70 },
+];
+
 const empty = { startDate: "", endDate: "", minSites: "", maxSites: "" };
 
-describe("filterAcquisitions", () => {
+describe("filterAcquisitions (date filtering)", () => {
   it("returns all data when no filters set", () => {
     expect(filterAcquisitions(data, empty)).toHaveLength(4);
   });
@@ -65,20 +73,43 @@ describe("filterAcquisitions", () => {
     expect(result).toHaveLength(2);
   });
 
+  it("ignores sites filters", () => {
+    const result = filterAcquisitions(data, {
+      ...empty,
+      minSites: "50",
+      maxSites: "60",
+    });
+    expect(result).toHaveLength(4);
+  });
+
+  it("returns empty array when nothing matches", () => {
+    const result = filterAcquisitions(data, {
+      ...empty,
+      startDate: "2026-01-01",
+    });
+    expect(result).toHaveLength(0);
+  });
+});
+
+describe("filterDaily (sites filtering)", () => {
+  it("returns all data when no filters set", () => {
+    expect(filterDaily(dailyData, empty)).toHaveLength(4);
+  });
+
   it("filters by minSites", () => {
-    const result = filterAcquisitions(data, { ...empty, minSites: "30" });
+    const result = filterDaily(dailyData, { ...empty, minSites: "30" });
     expect(result).toHaveLength(3);
     expect(result.every((r) => r.sites >= 30)).toBe(true);
   });
 
   it("filters by maxSites", () => {
-    const result = filterAcquisitions(data, { ...empty, maxSites: "50" });
+    const result = filterDaily(dailyData, { ...empty, maxSites: "50" });
     expect(result).toHaveLength(3);
     expect(result.every((r) => r.sites <= 50)).toBe(true);
   });
 
   it("filters by sites range", () => {
-    const result = filterAcquisitions(data, {
+    const result = filterDaily(dailyData, {
       ...empty,
       minSites: "20",
       maxSites: "60",
@@ -88,8 +119,8 @@ describe("filterAcquisitions", () => {
     expect(result[1].sites).toBe(50);
   });
 
-  it("combines date and sites filters", () => {
-    const result = filterAcquisitions(data, {
+  it("combines date and sites filters correctly (sites only here)", () => {
+    const result = filterDaily(dailyData, {
       startDate: "2025-01-15",
       endDate: "2025-01-25",
       minSites: "40",
@@ -100,18 +131,13 @@ describe("filterAcquisitions", () => {
     expect(result[1].date).toBe("2025-01-25");
   });
 
-  it("returns empty array when nothing matches", () => {
-    const result = filterAcquisitions(data, { ...empty, minSites: "100" });
-    expect(result).toHaveLength(0);
-  });
-
   it("handles minSites '0' correctly (returns all — no items below 0)", () => {
-    const result = filterAcquisitions(data, { ...empty, minSites: "0" });
+    const result = filterDaily(dailyData, { ...empty, minSites: "0" });
     expect(result).toHaveLength(4);
   });
 
   it("handles maxSites '0' correctly (excludes all positive values)", () => {
-    const result = filterAcquisitions(data, { ...empty, maxSites: "0" });
+    const result = filterDaily(dailyData, { ...empty, maxSites: "0" });
     expect(result).toHaveLength(0);
   });
 });
