@@ -104,7 +104,7 @@ export function AcquisitionsChart({ data, onZoom }: AcquisitionsChartProps) {
         role="img"
         aria-label={`Line chart showing detected sites over time. ${daily.length} data points from ${daily[0]?.date ?? ""} to ${daily[daily.length - 1]?.date ?? ""}.`}
       >
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height="100%" debounce={200}>
           <LineChart
             data={daily}
             margin={{ top: 5, right: 20, left: 0, bottom: 10 }}

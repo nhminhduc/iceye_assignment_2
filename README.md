@@ -2,6 +2,8 @@
 
 A React + TypeScript dashboard for visualizing Martian ore site acquisition data from satellite sweeps. Built as a coding assignment for ICEYE.
 
+**Live Demo:** [https://frontend-production-3543.up.railway.app/](https://frontend-production-3543.up.railway.app/)
+
 ## Tech Stack
 
 - **React 19** with TypeScript (strict mode)
@@ -30,6 +32,7 @@ docker compose up --build
 ```
 
 This starts:
+
 - **Frontend** at [http://localhost:3000](http://localhost:3000) — React SPA served via PM2 + `serve`
 - **Backend** at [http://localhost:8080](http://localhost:8080) — LARVIS Go binary
 
@@ -66,16 +69,16 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ### Available Scripts
 
-| Script               | Description                              |
-| -------------------- | ---------------------------------------- |
-| `npm run dev`        | Start Vite dev server with HMR           |
-| `npm run build`      | Type-check with `tsc` then build         |
-| `npm run preview`    | Preview the production build locally     |
-| `npm run lint`       | Run ESLint                               |
-| `npm run lint:fix`   | Run ESLint with auto-fix                 |
-| `npm run test`       | Run all unit tests once (`vitest run`)   |
-| `npm run test:watch` | Run unit tests in watch mode             |
-| `npm run test:e2e`   | Run Playwright end-to-end tests          |
+| Script               | Description                            |
+| -------------------- | -------------------------------------- |
+| `npm run dev`        | Start Vite dev server with HMR         |
+| `npm run build`      | Type-check with `tsc` then build       |
+| `npm run preview`    | Preview the production build locally   |
+| `npm run lint`       | Run ESLint                             |
+| `npm run lint:fix`   | Run ESLint with auto-fix               |
+| `npm run test`       | Run all unit tests once (`vitest run`) |
+| `npm run test:watch` | Run unit tests in watch mode           |
+| `npm run test:e2e`   | Run Playwright end-to-end tests        |
 
 ## Project Structure
 
@@ -162,6 +165,7 @@ docker-compose.yml
 ```
 
 The frontend Dockerfile uses a multi-stage build:
+
 1. **Build stage**: installs dependencies and runs `tsc -b && vite build`
 2. **Production stage**: installs `pm2` and `serve` globally, copies the built `dist/` folder, and runs `pm2-runtime` with the `ecosystem.config.cjs` config to serve static files on port 3000
 
@@ -257,12 +261,12 @@ npm run test:e2e
 
 16 tests across 4 spec files using Playwright (Chromium):
 
-| Spec File           | Tests | Description                              |
-| ------------------- | ----- | ---------------------------------------- |
-| `auth.spec.ts`      | 4     | Login/logout flows                       |
-| `dashboard.spec.ts` | 6     | Dashboard rendering & chart interactions |
-| `navigation.spec.ts`| 3     | Route navigation & auth guards           |
-| `profile.spec.ts`   | 3     | Profile page flows                       |
+| Spec File            | Tests | Description                              |
+| -------------------- | ----- | ---------------------------------------- |
+| `auth.spec.ts`       | 4     | Login/logout flows                       |
+| `dashboard.spec.ts`  | 6     | Dashboard rendering & chart interactions |
+| `navigation.spec.ts` | 3     | Route navigation & auth guards           |
+| `profile.spec.ts`    | 3     | Profile page flows                       |
 
 E2E tests run against the Vite preview server on port 4173.
 

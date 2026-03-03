@@ -55,7 +55,7 @@ export function AcquisitionsHistogram({ data }: AcquisitionsHistogramProps) {
       role="img"
       aria-label={`Bar chart showing distribution of detected site counts across ${histogram.length} ranges.`}
     >
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="100%" height="100%" debounce={200}>
         <BarChart
           data={histogram}
           margin={{ top: 5, right: 20, left: 0, bottom: 40 }}
