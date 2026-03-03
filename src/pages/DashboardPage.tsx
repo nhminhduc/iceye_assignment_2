@@ -98,14 +98,10 @@ export function DashboardPage() {
         minDate={data?.records[0]?.date}
         maxDate={data?.records[data.records.length - 1]?.date}
         minSitesValue={
-          data
-            ? Math.min(...data.daily.map((d) => d.sites))
-            : undefined
+          data ? Math.min(...data.daily.map((d) => d.sites)) : undefined
         }
         maxSitesValue={
-          data
-            ? Math.max(...data.daily.map((d) => d.sites))
-            : undefined
+          data ? Math.max(...data.daily.map((d) => d.sites)) : undefined
         }
       />
 
