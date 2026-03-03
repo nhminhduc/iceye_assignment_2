@@ -14,7 +14,7 @@ export function NotFoundPage() {
         lost in the void of space?"
       </p>
       <Button asChild>
-        <Link to="/dashboard">Return to Dashboard</Link>
+        <Link to="/">Return to Dashboard</Link>
       </Button>
     </div>
   );
