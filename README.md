@@ -55,7 +55,7 @@ Requires the backend to already be running at `http://localhost:8080`.
 
 #### Prerequisites
 
-- Node.js ≥ 18
+- Node.js ≥ 22
 - A running LARVIS backend at `http://localhost:8080` (or set `VITE_API_URL`)
 
 #### Install & Run
