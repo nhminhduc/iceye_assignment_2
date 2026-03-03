@@ -63,7 +63,7 @@ export function LoginPage() {
                 onChange={(e) => setUserId(e.target.value)}
                 placeholder="alice, bob, or charlie"
                 required
-                autoComplete="username"
+                autoComplete="off"
                 disabled={isPending}
                 className="h-10"
               />
@@ -83,7 +83,7 @@ export function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter your password"
                 required
-                autoComplete="current-password"
+                autoComplete="off"
                 disabled={isPending}
                 className="h-10"
               />
